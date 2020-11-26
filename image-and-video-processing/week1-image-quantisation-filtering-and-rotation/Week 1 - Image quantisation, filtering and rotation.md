@@ -9,6 +9,10 @@ import cv2
     Populating the interactive namespace from numpy and matplotlib
 
 
+# **My solutions to exercises in course "Image and Video Processing" by Prof. Guillermo Sapiro, Duke University.**
+
+#### Week 1 exercises: Bit down-conversion, Spatial averaging and box filters, Image rotation and Downsampling
+
 # Task1  - Bit down-conversion
 
 TASK: 
@@ -33,7 +37,7 @@ plt.imshow(image)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_5_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_6_1.png)
 
 
 > Check the number of unique pixel values to be sure it's indeed an 8 bit image
@@ -66,7 +70,7 @@ gray_image = rgb2gray(image)
 ```
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_9_0.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_10_0.png)
 
 
 > Again check the number of unique pixel values
@@ -127,7 +131,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_1.png)
 
 
     Input image has  8  bits
@@ -136,7 +140,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_3.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_3.png)
 
 
     Input image has  8  bits
@@ -145,7 +149,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_5.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_5.png)
 
 
     Input image has  8  bits
@@ -154,7 +158,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_7.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_7.png)
 
 
     Input image has  8  bits
@@ -163,7 +167,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_9.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_9.png)
 
 
     Input image has  8  bits
@@ -172,7 +176,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_11.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_11.png)
 
 
     Input image has  8  bits
@@ -181,7 +185,7 @@ for bits in range(7,0,-1):
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_14_13.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_15_13.png)
 
 
 # Task 2  - Spatial averaging - Box filters
@@ -214,7 +218,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_19_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_20_1.png)
 
 
 ## cv2.boxFilter
@@ -241,7 +245,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_21_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_22_1.png)
 
 
 
@@ -286,7 +290,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_25_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_26_1.png)
 
 
 ## Differences between cv2 and PIL box filters
@@ -311,7 +315,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_27_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_28_1.png)
 
 
 
@@ -330,7 +334,7 @@ plt.colorbar()
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_28_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_29_1.png)
 
 
 ## Example of different kernal sizes
@@ -361,7 +365,7 @@ plt.colorbar(im3,ax=ax3,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_30_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_31_1.png)
 
 
 # Task 3 - Rotation
@@ -398,7 +402,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_35_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_36_1.png)
 
 
 ##  skimage.transform.rotate
@@ -446,7 +450,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_41_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_42_1.png)
 
 
 ## scipy ndimage.rotate
@@ -478,7 +482,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_44_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_45_1.png)
 
 
 ## compare scipy and skimage
@@ -503,7 +507,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_46_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_47_1.png)
 
 
 
@@ -528,7 +532,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_47_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_48_1.png)
 
 
 # Task 4 - Downsampling (reduction of resolution)
@@ -641,7 +645,7 @@ plt.colorbar(im4,ax=axs[1,1],fraction=0.035, pad=0.03)
 
 
 
-![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_57_1.png)
+![png](Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_files/Week%201%20-%20Image%20quantisation%2C%20filtering%20and%20rotation_58_1.png)
 
 
 
