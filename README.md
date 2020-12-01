@@ -2,9 +2,7 @@
 
 This documents records examples of my independent coursework on image processing.  I have plenty of experience in image processing in optical sciences. But it's never too late to learn something new or to explore familiar things from a different perspective!
 
-## 'Classical' image processing 
-
-### "Image and Video Processing" course by Prof. Guillermo Sapiro, Duke University
+## "Image and Video Processing" course by Prof. Guillermo Sapiro, Duke University
 
 The course is based on the image processing book by Gonzalez and Woods. Here are my solutions to optional programming exercises.
 
@@ -21,3 +19,20 @@ The course is based on the image processing book by Gonzalez and Woods. Here are
 * Histogram equalization
 * Median filtering
 * Non-local means
+
+## Deep learning in computer vision
+
+[[**Week 1: Image alignment**](deep-learning-in-computer-vision/week1/image_alignment_task.md)]
+
+*Colour photography*
+- removal of the photographic tape’s borders by Canny edge detector
+- implementation of Canny edge detector
+- spatial separation of the RGB channels
+- channel alignment by mean-squared-error and normalised cross-correlation
+
+*Image alignment for face recognition*
+- image rotation
+- image centering
+- image resizing
+
+
