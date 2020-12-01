@@ -482,7 +482,7 @@ ax1.set_title('Gaussian noise, std  = 20 ')
 im2=ax2.imshow(gray_image_gaussian_nonlocal_10_10, cmap='gray')
 ax2.set_title('non-local means, patch_size = 10, patch_distance = 10')
 plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
-plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
+plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03) 
 ```
 
 
