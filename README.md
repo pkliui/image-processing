@@ -19,3 +19,5 @@ The course is based on the image processing book by Gonzalez and Woods. Here are
 
 [[**Week 3: Spatial processing**](image-and-video-processing/week3-spatial-processing/week3-spatial-processing.md)]: 
 * Histogram equalization
+* Median filtering
+* Non-local means
