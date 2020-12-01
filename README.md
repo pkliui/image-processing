@@ -8,11 +8,14 @@ This documents records examples of my independent coursework on image processing
 
 The course is based on the image processing book by Gonzalez and Woods. Here are my solutions to optional programming exercises.
 
-[[Week 1](image-and-video-processing/week1-image-quantisation-filtering-and-rotation/week1-image-quantisation-filtering-and-rotation.md)]: 
+[[**Week 1: Image quantization, filtering, rotation and downsampling**](image-and-video-processing/week1-image-quantisation-filtering-and-rotation/week1-image-quantisation-filtering-and-rotation.md)]: 
 * Bit down-conversion
 * Spatial averaging and box filters
 * Image rotation
 * Image downsampling
 
-[[Week 2: Image compression](image-and-video-processing/week2-image-compression/week2-image-compression.md)]: 
+[[**Week 2: Image compression**](image-and-video-processing/week2-image-compression/week2-image-compression.md)]: 
 * Basic implementation of JPEG
+
+[[**Week 3: Spatial processing**](image-and-video-processing/week3-spatial-processing/week3-spatial-processing.md)]: 
+* Histogram equalization
