@@ -28,7 +28,7 @@ The course is based on the image processing book by Gonzalez and Woods. Here are
 - removal of the photographic tape’s borders by Canny edge detector
 - implementation of Canny edge detector
 - spatial separation of the RGB channels
-- channel alignment by mean-squared-error and normalised cross-correlation
+- channel alignment (pattern matching) by mean-squared-error and normalised cross-correlation
 
 *Image alignment for face recognition*
 - image rotation
