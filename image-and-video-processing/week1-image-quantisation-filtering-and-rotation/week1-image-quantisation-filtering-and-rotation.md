@@ -9,7 +9,7 @@ import cv2
     Populating the interactive namespace from numpy and matplotlib
 
 
-# **My solutions to exercises in course "Image and Video Processing" by Prof. Guillermo Sapiro, Duke University.**
+# **Solutions to exercises in course "Image and Video Processing" by Prof. Guillermo Sapiro, Duke University.**
 
 #### Week 1 exercises: Bit down-conversion, Spatial averaging and box filters, Image rotation and Downsampling
 
