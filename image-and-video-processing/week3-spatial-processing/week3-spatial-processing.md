@@ -9,11 +9,6 @@ import cv2
     Populating the interactive namespace from numpy and matplotlib
 
 
-    /Users/Pavel/anaconda3/lib/python3.6/site-packages/IPython/core/magics/pylab.py:160: UserWarning: pylab import has clobbered these variables: ['random', 'std', 'mean']
-    `%matplotlib` prevents importing * from pylab and numpy
-      "\n`%matplotlib` prevents importing * from pylab and numpy"
-
-
 # **Solutions to exercises in course "Image and Video Processing" by Prof. Guillermo Sapiro, Duke University.**
 
 ### Week 3 outline:
@@ -29,9 +24,22 @@ import cv2
 
 
 * Histogram equalization aims at creation of an image with equally distributed brightness levels over the whole brightness scale. It enhances contrast for brightness values close to histogram maxima, and decreases contrast near minima.
-* The goal is to find a monotonic pixel brightness transformation q = T(p) such that the desired output histogram G(q) is uniform over the whole output brightness scale.
-* It turns out that the  pixel brightness transformation q = T(p) that satisfies this requirement is the cumulative histogram distribution of the original image multiplied by the max value of the grey level.
-* In this case, the equalized histogram G(q)  (approximately because of the discrete pixel values) corresponds to the uniform probability density function whose function value is a constant. 
+* The goal is to find a monotonic pixel brightness transformation such that the desired output histogram is uniform over the whole output brightness scale.
+
+* It turns out that the  pixel brightness transformation that satisfies this requirement is the **cumulative histogram distribution of the original image multiplied by the max value of the grey level**.
+
+$g_{i,j} = \textrm{floor}((L-1)\cdot\sum_{n=0}^{f_{i,j}}􏰍p_n),$
+
+where 
+
+* $f_{i,j}$ are the grey values of the original image at $(i,j)$ pixel coordinates
+* $g_{i,j}$ are the grey values of the transformed image at $(i,j)$ pixel coordinates
+* $L$ is the number of grey levels in the original image (e.g. L=256 for an 8 bit image)
+* $p$ is the normalized histogram of the original image $f$ with a bin $p_n$ for each possible intensity in $f$: 
+
+$p_n = \frac{\textrm{number of pixels with intensity n}}{\textrm{total number of pixels}}, n = 0, 1, ..., L − 1$
+
+* In this case, the equalized histogram of $g$ approximately corresponds to the uniform probability density function whose function value is a constant (approximately because of the discrete nature of the pixel values).
 
  ### 1.0 Read an image and convert it to the grey scale
 
@@ -92,7 +100,8 @@ np.unique(gray_image).shape
 
 
 ```python
-bin_counts, bin_edges, patches = plt.hist(gray_image.ravel(), bins=256)
+gray_levels = 256
+bin_counts, _, _ = plt.hist(gray_image.ravel(), bins=gray_levels)
 plt.title("histogram of the original image")
 ```
 
@@ -127,10 +136,8 @@ plt.show()
 
 
 ```python
-grey_levels  = 256
-
 # note that the min value is subtracted (in the nominator) and it's also scaled by its maximum value (in the denominator) to have the same grey level range of the original image
-transformation_function =  grey_levels * (cumulative_histogram - cumulative_histogram.min())  / (cumulative_histogram.max() - cumulative_histogram.min())
+transformation_function =  (gray_levels-1) * (cumulative_histogram - cumulative_histogram.min())  / (cumulative_histogram.max() - cumulative_histogram.min())
 
 plt.plot(transformation_function)
 plt.title('transformation_function')
@@ -145,11 +152,11 @@ plt.show()
 
 
 ```python
-gray_image_equalized = transformation_function[gray_image.ravel()]
+image_equalized_raveled = transformation_function[gray_image.ravel()]
 
-plt.hist(gray_image_equalized, bins=256)
+bin_counts_equalized, _,_ = plt.hist(image_equalized_raveled, bins=256)
 plt.title('equalized histogram')
-print(gray_image_equalized.shape)
+print(image_equalized_raveled.shape)
 ```
 
     (15991970,)
@@ -163,7 +170,7 @@ Reshape the equalized image and plot it.
 
 
 ```python
-gray_image_equalized = np.reshape(gray_image_equalized, gray_image.shape)
+gray_image_equalized = np.reshape(image_equalized_raveled, gray_image.shape)
 
 fig, axs = plt.subplots(1, 2, figsize=(15,5))
 ax1, ax2 = axs
@@ -178,13 +185,183 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb1732940>
+    <matplotlib.colorbar.Colorbar at 0x1215b35f8>
 
 
 
 
 ![png](week3-spatial-processing_files/week3-spatial-processing_20_1.png)
 
+
+### 1.4 Histogram equalization in one step
+
+To equalize the histogram of an image in a single step, use ```equalize_histogram```  function defined below. 
+
+
+```python
+def equalize_histogram(im, gray_levels):
+    
+    """
+    Computes an equalized histogram of the image and transforms it accordingly
+    Plots the original image and its histogram and cimulative distribution function BEFORE the equalization
+    --
+    input
+    --
+    im : array of floats
+        input image to compute the equalized histogram of
+    gray_levels: int
+        number of gray levels in the image
+    --
+    return
+    --
+    im_equalized: array of floats
+        original image after the histogram equalization
+    
+    """
+    
+    fig, axs = plt.subplots(1, 2, figsize=(15,5))
+    ax1, ax2 = axs
+    im1 = ax1.imshow(im, cmap='gray')
+    ax1.set_title('Image')
+    plt.colorbar(im1,ax=ax1,fraction=0.03, pad=0.03)
+    #
+    # plot a histogram of the image
+    bin_counts, bin_edges, _ = ax2.hist(im.ravel(), bins=gray_levels, density=True, alpha = 0.5, color = "green", label = "Histogram")
+    # 
+    # compute a cumulative_histogram 
+    cumulative_histogram = np.array([sum(bin_counts[:i+1]) for i in range(len(bin_counts))])
+    #
+    # compute the transformation function
+    # note that the min value is subtracted (in the nominator) and it's also scaled by its maximum value (in the denominator) to have the same grey level range of the original image
+    transformation_function =  (gray_levels-1) * (cumulative_histogram - cumulative_histogram.min())  / (cumulative_histogram.max() - cumulative_histogram.min())
+    #
+    # plot the transformation function
+    plt.ylabel("Histogram counts (normalized)")
+    ax2.twinx()
+    plt.plot(bin_edges[1:], transformation_function/max(transformation_function), color='darkorange', marker='o', linestyle='-', markersize = 1,)
+    plt.ylabel("CDF counts (normalized)")
+    plt.title("Histogram and cumulative distribution function")
+    fig.tight_layout()
+    
+    #
+    # apply the transformation function
+    im_eq_raveled = transformation_function[im.astype(int).ravel()]
+    #
+    # reshape the image 
+    im_equalized = np.reshape(im_eq_raveled, gray_image.shape)
+    
+    return im_equalized
+```
+
+> Equalize the histogram, plot the original image and its histogram and cumulative distribution function before the equalization
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_24_0.png)
+
+
+> To visualise the image, its histogram and cumulative distribution function after the equalization, apply the function again.
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_26_0.png)
+
+
+> Let's check what happens if we apply the equalization many times.
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_28_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_29_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_30_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_31_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_32_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_33_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_34_0.png)
+
+
+
+```python
+gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_35_0.png)
+
+
+
+```python
+np.unique(gray_image_eq).shape
+```
+
+
+
+
+    (99,)
+
+
+
+> We are loosing the bit-depth of the image by applying the equalization many times.
 
 # 2. Median filter 
 
@@ -255,7 +432,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_27_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_44_1.png)
 
 
 > Now try different implementations of the median filter
@@ -288,7 +465,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_31_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_48_1.png)
 
 
 ##  3x3 kernel applied 4 times  vs. 7x7 kernel applied once
@@ -324,7 +501,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_35_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_52_1.png)
 
 
 
@@ -353,7 +530,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_37_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_54_1.png)
 
 
 
@@ -381,7 +558,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_39_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_56_1.png)
 
 
 ## Zoom in to compare 3x3 kernel 4x times and 7x7 kernel applied once
@@ -406,7 +583,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_41_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_58_1.png)
 
 
 There is some loss of detail on the image on thr r.h.s. due to the larger size of the median filter's kernel.
@@ -453,7 +630,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_47_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_64_1.png)
 
 
 ### Small patch size = 10, fixed  patch distance = 10 and  sigma = 20
@@ -493,5 +670,5 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_50_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_67_1.png)
 
