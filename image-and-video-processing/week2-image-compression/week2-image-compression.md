@@ -115,6 +115,12 @@ np.unique(gray_image).shape
 ### 1.1 and 1.2: DCT and FFT of 8x8 blocks
 **TASK**: Divide the image into non-overlapping 8x8 blocks and compute the DCT  and the FFT of each block
 
+**MY NOTES:** 
+* Why 8x8 blocks?
+* Small block - faster, more correlation btween neightboring pixels
+* Large block - slower, but the compression is better in smooth regions
+* 8x8 is a standard size 
+
 > Make sure the image dimensions are modulo 8
 
 
@@ -199,7 +205,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week2-image-compression_files/week2-image-compression_19_1.png)
+![png](week2-image-compression_files/week2-image-compression_20_1.png)
 
 
 > Compute forward FFT of the image
@@ -247,7 +253,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week2-image-compression_files/week2-image-compression_22_1.png)
+![png](week2-image-compression_files/week2-image-compression_23_1.png)
 
 
 ### 1.3 Quantization
@@ -417,7 +423,7 @@ plt.colorbar(im7,ax=axs[3,1],fraction=0.035, pad=0.03)
 
 
 
-![png](week2-image-compression_files/week2-image-compression_37_1.png)
+![png](week2-image-compression_files/week2-image-compression_38_1.png)
 
 
 
