@@ -193,7 +193,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 ![png](week3-spatial-processing_files/week3-spatial-processing_20_1.png)
 
 
-### 1.4 Histogram equalization in one step
+### 1.5 Histogram equalization in one step
 
 To equalize the histogram of an image in a single step, use ```equalize_histogram```  function defined below. 
 
@@ -203,7 +203,8 @@ def equalize_histogram(im, gray_levels):
     
     """
     Computes an equalized histogram of the image and transforms it accordingly
-    Plots the original image and its histogram and cimulative distribution function BEFORE the equalization
+    Plots the original image, its histogram and the normalized transformation function 
+    used to map the intensity values from the input image to the output image 
     --
     input
     --
@@ -215,7 +216,7 @@ def equalize_histogram(im, gray_levels):
     return
     --
     im_equalized: array of floats
-        original image after the histogram equalization
+        original image after the application of the transformation function
     
     """
     
@@ -239,8 +240,8 @@ def equalize_histogram(im, gray_levels):
     plt.ylabel("Histogram counts (normalized)")
     ax2.twinx()
     plt.plot(bin_edges[1:], transformation_function/max(transformation_function), color='darkorange', marker='o', linestyle='-', markersize = 1,)
-    plt.ylabel("CDF counts (normalized)")
-    plt.title("Histogram and cumulative distribution function")
+    plt.ylabel("Transformation function (normalized)")
+    plt.title("Histogram and transformation function")
     fig.tight_layout()
     
     #
@@ -250,21 +251,23 @@ def equalize_histogram(im, gray_levels):
     # reshape the image 
     im_equalized = np.reshape(im_eq_raveled, gray_image.shape)
     
-    return im_equalized
+    return im_equalized, transformation_function
 ```
 
-> Equalize the histogram, plot the original image and its histogram and cumulative distribution function before the equalization
+> Equalize the histogram, plot the original image, its histogram before the equalization and the normalized transformation funtion 
 
 
 ```python
-gray_image_eq = equalize_histogram(gray_image, gray_levels=256)
+gray_image_eq,_ = equalize_histogram(gray_image, gray_levels=256)
 ```
 
 
 ![png](week3-spatial-processing_files/week3-spatial-processing_24_0.png)
 
 
-> To visualise the image, its histogram and cumulative distribution function after the equalization, apply the function again.
+> To visualise the image, its histogram and the transformation function = CDF after the equalization, apply the function again.
+
+> Histogram equalization achieves image enhancement by spreading the levels of the input image over a wider range of the intensity scale. 
 
 
 ```python
@@ -363,6 +366,65 @@ np.unique(gray_image_eq).shape
 
 > We are loosing the bit-depth of the image by applying the equalization many times.
 
+## 1.6  Histogram matching 
+
+From scikit-image:
+
+* This example demonstrates the feature of histogram matching. It manipulates the pixels of an input image so that its histogram matches the histogram of the reference image. If the images have multiple channels, the matching is done independently for each channel, as long as the number of channels is equal in the input image and the reference.
+
+* Histogram matching can be used as a lightweight normalisation for image processing, such as feature matching, especially in circumstances where the images have been taken from different sources or in different conditions (i.e. lighting).
+
+
+```python
+import matplotlib.pyplot as plt
+
+from skimage import data
+from skimage import exposure
+from skimage.exposure import match_histograms
+
+reference = data.coffee()
+image = data.chelsea()
+
+matched = match_histograms(image, reference, multichannel=True)
+
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(15, 7),
+                                    sharex=True, sharey=True)
+for aa in (ax1, ax2, ax3):
+    aa.set_axis_off()
+
+ax1.imshow(image)
+ax1.set_title('Source')
+ax2.imshow(reference)
+ax2.set_title('Reference')
+ax3.imshow(matched)
+ax3.set_title('Matched')
+
+plt.tight_layout()
+plt.show()
+
+
+
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(15, 7))
+
+ax1.hist(image.ravel(), bins=256)
+ax1.set_title('Source')
+ax2.hist(reference.ravel(), bins=256)
+ax2.set_title('Reference')
+ax3.hist(matched.ravel(), bins=256)
+ax3.set_title('Matched')
+
+plt.tight_layout()
+plt.show()
+```
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_39_0.png)
+
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_39_1.png)
+
+
 # 2. Median filter 
 
 **TASK** : Implement a median filter. Add different levels and types of noise to an image and experiment with different sizes of support for the median filter. 
@@ -432,7 +494,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_44_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_46_1.png)
 
 
 > Now try different implementations of the median filter
@@ -465,7 +527,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_48_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_50_1.png)
 
 
 ##  3x3 kernel applied 4 times  vs. 7x7 kernel applied once
@@ -501,7 +563,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_52_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_54_1.png)
 
 
 
@@ -530,7 +592,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_54_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_56_1.png)
 
 
 
@@ -558,7 +620,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_56_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_58_1.png)
 
 
 ## Zoom in to compare 3x3 kernel 4x times and 7x7 kernel applied once
@@ -583,7 +645,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_58_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_60_1.png)
 
 
 There is some loss of detail on the image on thr r.h.s. due to the larger size of the median filter's kernel.
@@ -630,7 +692,7 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_64_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_66_1.png)
 
 
 ### Small patch size = 10, fixed  patch distance = 10 and  sigma = 20
@@ -670,5 +732,5 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_67_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_69_1.png)
 
