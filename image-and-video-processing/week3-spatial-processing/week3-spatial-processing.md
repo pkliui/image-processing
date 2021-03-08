@@ -9,6 +9,11 @@ import cv2
     Populating the interactive namespace from numpy and matplotlib
 
 
+    /Users/Pavel/anaconda3/lib/python3.6/site-packages/IPython/core/magics/pylab.py:160: UserWarning: pylab import has clobbered these variables: ['random']
+    `%matplotlib` prevents importing * from pylab and numpy
+      "\n`%matplotlib` prevents importing * from pylab and numpy"
+
+
 # **Solutions to exercises in course "Image and Video Processing" by Prof. Guillermo Sapiro, Duke University.**
 
 ### Week 3 outline:
@@ -45,7 +50,7 @@ $p_n = \frac{\textrm{number of pixels with intensity n}}{\textrm{total number of
 
 
 ```python
-image = plt.imread('river.jpg')
+image = plt.imread('ox2.jpg')
 plt.figure(figsize=(9,9))
 plt.title('original RGB image')
 plt.imshow(image)
@@ -65,6 +70,18 @@ image.dtype
 
 
 ```python
+image.shape
+```
+
+
+
+
+    (3265, 4898, 3)
+
+
+
+
+```python
 def rgb2gray(rgb_image):
     """
     a function converting grey to rgb
@@ -79,7 +96,7 @@ gray_image = rgb2gray(image)
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_8_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_9_0.png)
 
 
 > Check the number of unique grey levels
@@ -92,7 +109,7 @@ np.unique(gray_image).shape
 
 
 
-    (256,)
+    (248,)
 
 
 
@@ -101,7 +118,7 @@ np.unique(gray_image).shape
 
 ```python
 gray_levels = 256
-bin_counts, _, _ = plt.hist(gray_image.ravel(), bins=gray_levels)
+bin_counts, bin_edges, _ = plt.hist(gray_image.ravel(), bins=gray_levels)
 plt.title("histogram of the original image")
 ```
 
@@ -113,7 +130,7 @@ plt.title("histogram of the original image")
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_12_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_13_1.png)
 
 
 ### 1.2 Compute its  cumulative histogram
@@ -129,7 +146,7 @@ plt.show()
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_14_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_15_0.png)
 
 
 ### 1.3 Compute a transformation function to map the pixel values
@@ -145,7 +162,7 @@ plt.show()
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_16_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_17_0.png)
 
 
 ### 1.4 Obtain an equalized image by mapping the old pixel vales into new ones using the transformation function.
@@ -154,7 +171,7 @@ plt.show()
 ```python
 image_equalized_raveled = transformation_function[gray_image.ravel()]
 
-bin_counts_equalized, _,_ = plt.hist(image_equalized_raveled, bins=256)
+bin_counts_equalized, _,_ = plt.hist(image_equalized_raveled, bins = 248)
 plt.title('equalized histogram')
 print(image_equalized_raveled.shape)
 ```
@@ -163,7 +180,7 @@ print(image_equalized_raveled.shape)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_18_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_19_1.png)
 
 
 Reshape the equalized image and plot it.
@@ -185,12 +202,12 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x1215b35f8>
+    <matplotlib.colorbar.Colorbar at 0x134ae2400>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_20_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_21_1.png)
 
 
 ### 1.5 Histogram equalization in one step
@@ -262,7 +279,7 @@ gray_image_eq,_ = equalize_histogram(gray_image, gray_levels=256)
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_24_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_25_0.png)
 
 
 > To visualise the image, its histogram and the transformation function = CDF after the equalization, apply the function again.
@@ -275,96 +292,21 @@ gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_26_0.png)
-
-
-> Let's check what happens if we apply the equalization many times.
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_28_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_27_0.png)
 
 
 
 ```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_29_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_30_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_31_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_32_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_33_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_34_0.png)
-
-
-
-```python
-gray_image_eq = equalize_histogram(gray_image_eq, gray_levels=256)
-```
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_35_0.png)
-
-
-
-```python
-np.unique(gray_image_eq).shape
+reference = data.coffee()
+reference.shape
 ```
 
 
 
 
-    (99,)
+    (400, 600, 3)
 
 
-
-> We are loosing the bit-depth of the image by applying the equalization many times.
 
 ## 1.6  Histogram matching 
 
@@ -382,9 +324,14 @@ from skimage import data
 from skimage import exposure
 from skimage.exposure import match_histograms
 
-reference = data.coffee()
-image = data.chelsea()
+import cv2
 
+reference = data.coffee()
+
+# in opencv the order of the dimensions is reversed!
+reference = cv2.resize(reference, (image.shape[1],image.shape[0]), interpolation = cv2.INTER_NEAREST)
+
+#reference = imutils.resize(reference, width=image.shape[0], height = image.shape[1])
 matched = match_histograms(image, reference, multichannel=True)
 
 fig, (ax1, ax2, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(15, 7),
@@ -418,61 +365,79 @@ plt.show()
 ```
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_39_0.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_30_0.png)
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_39_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_30_1.png)
 
 
 # 2. Median filter 
 
-**TASK** : Implement a median filter. Add different levels and types of noise to an image and experiment with different sizes of support for the median filter. 
+**Refs:**
 
-The median filter replaces each pixel value with the median of its neighboring pixel values. For a given pixel, the filter takes all its neighboring pixels, sorts them, takes the one in the middle and replaces the current pixel values with the selected one. In case there is an even number of pixels in the neighbourhood, then the average value of the pixels in the middle is used. 
+* Gonzalez and Woods Digital image processing, p. 176
 
-The median filter is very effective in removing salt-and-pepper noise. Any "cold" or "hot" pixel will most probably not be the median one and thus will be replace by one of its neighbouring pixels.  
+* R. Boyle and R. Thomas Computer Vision: A First Course, Blackwell Scientific Publications, 1988, pp 32 - 34.
 
-The median filter is also effective in preserving the edges. This is because the median value used to replace pixels in the original image must actually belong to the image. Thus there will be no new unrealistic values created. In contrast, the mean filter constantly creates new pixel values, thus chaning the original appearance of the image and blurring the edges.
+* E. Davies Machine Vision: Theory, Algorithms and Practicalities, Academic Press, 1990, Chap. 3.
 
-## Median filter and salt-and-pepper noise
+* A. Marion An Introduction to Image Processing, Chapman and Hall, 1991, p 274.
 
- > Median filter is used to remove salt-and-pepper noise.
- 
- > First add some salt-and-pepper noise to the original image
+* D. Vernon Machine Vision, Prentice-Hall, 1991, Chap. 4. 
+
+> **TASK** : Implement a median filter. Add different levels and types of noise to an image and experiment with different sizes of support for the median filter. 
+
+* Replaces each pixel value with the median of its **neighboring** pixel values
+
+
+* For a given pixel, the filter takes all its neighboring pixels, sorts them, takes the one in the middle and replaces the current pixel values with the selected one. In case there is an even number of pixels in the neighbourhood, then the average value of the pixels in the middle is used. 
+
+
+
+* Computationally expensive because of sorting
+
+
+
+* Effective in removing **salt-and-pepper noise** 
+
+
+
+* Effective in **preserving the edges**  (median pixel value belongs to the image, no new unrealistic values are created as in the mean filtering!)
+
+
+* Nonlinear (median(a+b) $\neq$ median(a) + median(b))
 
 
 ```python
 import random
 
-def salt_and_pepper(input_image = None, SNR = 0.5):
+def salt_and_pepper(input_image = None, SNR = 0.5, salt_pepper_ratio = 0.5):
     #
     # make a copy of the input image
     noisy_image = np.copy(input_image)
     #
-    # calculate total number of pixels in the input image
-    npixels_total = input_image.shape[0] * input_image.shape[1]
+    # calculate the total number of noisy pixels
+    npixels_noise = int(input_image.shape[0] * input_image.shape[1] * (1 - SNR))
     #
-    # calculate number of noisy pixels
-    npixels_noise = int(npixels_total * (1 - SNR))
-    #
-    # randomly choose  which pixels  will be noisy
-    for i in range (npixels_noise):
-        # generate random pixel coordinates
-        random_x = np.random.randint(0,input_image.shape[0]) # Generate a random integer between 1 and h-1
-        random_y = np.random.randint(0,input_image.shape[1]) # Generate a random integer between 1 and h-1
-        #
-        if random.random()<0.5:
-            # salt
-            noisy_image[random_x, random_y]=0
-        else:
-            # and pepper
-            noisy_image[random_x, random_y]=255
+    # randomaly generate coordinates of the salt and pepper pixels
+    npixels_salt = [np.random.randint(0, ii - 1, int(npixels_noise * salt_pepper_ratio)) for ii in noisy_image.shape]
+    noisy_image[npixels_salt] = 255
+    
+    npixels_pepper = [np.random.randint(0, ii - 1, int(npixels_noise * (1-salt_pepper_ratio))) for ii in noisy_image.shape]
+    noisy_image[npixels_pepper] = 0
+    
+    
     return noisy_image
 
-
-noisy_image = salt_and_pepper(input_image = gray_image_equalized, SNR = 0.5)
+noisy_image = salt_and_pepper(input_image = gray_image_equalized, SNR = 0.3)
 ```
+
+    /Users/Pavel/anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:13: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      del sys.path[0]
+    /Users/Pavel/anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:16: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      app.launch_new_instance()
+
 
 
 ```python
@@ -489,12 +454,12 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb17e7898>
+    <matplotlib.colorbar.Colorbar at 0x14e55e240>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_46_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_35_1.png)
 
 
 > Now try different implementations of the median filter
@@ -504,7 +469,8 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 ```python
 from scipy import ndimage
-noise_free_3x3 = ndimage.median_filter(noisy_image, size=3)
+size = 3
+noise_free = ndimage.median_filter(noisy_image, size=size)
 ```
 
 
@@ -513,8 +479,8 @@ fig, axs = plt.subplots(1, 2, figsize=(15,5))
 ax1, ax2 = axs
 im1=ax1.imshow(noisy_image, cmap='gray')
 ax1.set_title('noisy, SNR = 50%')
-im2=ax2.imshow(noise_free_3x3, cmap='gray')
-ax2.set_title('filtered ndimage.median_filter, kernel = 3x3')
+im2=ax2.imshow(noise_free, cmap='gray')
+ax2.set_title('filtered ndimage.median_filter, kernel = {}'.format(size))
 plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
 plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 ```
@@ -522,25 +488,26 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb1c1e710>
+    <matplotlib.colorbar.Colorbar at 0x14e045c18>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_50_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_39_1.png)
 
 
-##  3x3 kernel applied 4 times  vs. 7x7 kernel applied once
+###  3x3 kernel applied twice  vs. 11x11 kernel applied once
 
 * Using 3x3 kernel once is not enough to remove all noise. 
 
 **Solution**: 
-* We can either use a larger kernel, let's say a 7x7 kernel (this will blur the image though, make it look "blotchy".)
+* We can either use a larger kernel, but this will blur the image though, make it look "blotchy"
 * Or we can apply the 3x3 kernel several times (this will keep the image sharper).
 
 
 ```python
-noise_free_3x3 = ndimage.median_filter(noise_free_3x3, size=3)
+size = 3
+noise_free_3x3 = ndimage.median_filter(noise_free, size=size)
 ```
 
 
@@ -550,7 +517,7 @@ ax1, ax2 = axs
 im1=ax1.imshow(noisy_image, cmap='gray')
 ax1.set_title('noisy, SNR = 50%')
 im2=ax2.imshow(noise_free_3x3, cmap='gray')
-ax2.set_title('filtered ndimage.median_filter, kernel = 3x3, 2x times')
+ax2.set_title('filtered ndimage.median_filter, kernel = {},  2x times'.format(size))
 plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
 plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 ```
@@ -558,46 +525,18 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb15522e8>
+    <matplotlib.colorbar.Colorbar at 0x14df5d5c0>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_54_1.png)
-
-
-
-```python
-noise_free_3x3 = ndimage.median_filter(noise_free_3x3, size=3)
-noise_free_3x3 = ndimage.median_filter(noise_free_3x3, size=3)
-```
-
-
-```python
-fig, axs = plt.subplots(1, 2, figsize=(15,5))
-ax1, ax2 = axs
-im1=ax1.imshow(noisy_image, cmap='gray')
-ax1.set_title('noisy, SNR = 50%')
-im2=ax2.imshow(noise_free_3x3, cmap='gray')
-ax2.set_title('filtered ndimage.median_filter, kernel = 3x3, 4x times')
-plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
-plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
-```
-
-
-
-
-    <matplotlib.colorbar.Colorbar at 0xbb19a45f8>
-
-
-
-
-![png](week3-spatial-processing_files/week3-spatial-processing_56_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_43_1.png)
 
 
 
 ```python
-noise_free_7x7 = ndimage.median_filter(noisy_image, size=3)
+size = 11
+noise_free_2 = ndimage.median_filter(noisy_image, size=size)
 ```
 
 
@@ -606,8 +545,8 @@ fig, axs = plt.subplots(1, 2, figsize=(15,5))
 ax1, ax2 = axs
 im1=ax1.imshow(noisy_image, cmap='gray')
 ax1.set_title('mnoisy')
-im2=ax2.imshow(noise_free_7x7, cmap='gray')
-ax2.set_title('filtered ndimage.median_filter, kernel = 7x7')
+im2=ax2.imshow(noise_free_2, cmap='gray')
+ax2.set_title('filtered ndimage.median_filter, kernel = 11x11')
 plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
 plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 ```
@@ -615,24 +554,24 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb1e9a940>
+    <matplotlib.colorbar.Colorbar at 0x14e376eb8>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_58_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_45_1.png)
 
 
-## Zoom in to compare 3x3 kernel 4x times and 7x7 kernel applied once
+### Zoom in to compare kernels
 
 
 ```python
 fig, axs = plt.subplots(1, 2, figsize=(15,5))
 ax1, ax2 = axs
-im1=ax1.imshow(noise_free_3x3[650:850,200:300], cmap='gray')
-ax1.set_title('3x3 kernel 4 times')
-im2=ax2.imshow(noise_free_7x7[650:850,200:300], cmap='gray')
-ax2.set_title('7x7 kernel 1 time')
+im1=ax1.imshow(noise_free_3x3[1200:1450,3600:4000], cmap='gray')
+ax1.set_title('3x3 kernel 2x ')
+im2=ax2.imshow(noise_free_7x7[1200:1450,3600:4000], cmap='gray')
+ax2.set_title('11x11 kernel 1x')
 plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
 plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 ```
@@ -640,32 +579,46 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x1d8d13aba8>
+    <matplotlib.colorbar.Colorbar at 0x6d9522550>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_60_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_47_1.png)
 
 
-There is some loss of detail on the image on thr r.h.s. due to the larger size of the median filter's kernel.
+> There is some loss of detail on the image on the r.h.s. due to the larger size of the median filter's kernel.
+> Also the noise is too strong for 11x11 to remove it completely in one turn, but the result is better than after using 3x3 kernel twice.
 
 #  3. Non-local means
 
-The non-local means algorithm replaces the value of a pixel by an average of a selection of other pixels values: small patches centered on the other pixels are compared to the patch centered on the pixel of interest, and the average is performed only for pixels that have patches close to the current patch. As a result, this algorithm can restore well textures, that would be blurred by other denoising algorithm.
+* Instead of averaging over the neighbourhood of a pixel
 
-Add some Gaussian noise and rescale the intensity back to the original (0,255) range.
+* Look for similar patches and average over them instead!
+
+* Restores well textures that would be blurred by other denoising algorithms
+
+* Requires a rather thourough selection of parameters (patch size, patch distance, etc.)
+
+> Add some Gaussian noise and rescale the intensity back to the original (0,255) range.
 
 
 ```python
 import numpy as np
+
+def gaussian_noise(im, mean = 0, var = 0.1):
+    std = var**0.5
+    gauss = np.random.normal(mean,std,(im.shape[0], im.shape[1]))
+    gauss = gauss.reshape(im.shape[0], im.shape[1])
+    noisy = im + gauss
+    return noisy
+```
+
+
+```python
 from  skimage.exposure import rescale_intensity
 
-# generate Gaussian noise and add it to the image
-mean = 0
-std = 20
-gaussian = np.random.normal(mean, std, (gray_image_equalized.shape[0],gray_image_equalized.shape[1]))
-gray_image_gaussian_noise = gray_image_equalized + gaussian
+gray_image_gaussian_noise = gaussian_noise(gray_image, mean = 0, var = 20**2)
 
 # rescale intensity to (0,255) range
 gray_image_gaussian_noise = rescale_intensity(gray_image_gaussian_noise, out_range=(0,255))
@@ -687,12 +640,12 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0xbb20b17f0>
+    <matplotlib.colorbar.Colorbar at 0xc02419860>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_66_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_54_1.png)
 
 
 ### Small patch size = 10, fixed  patch distance = 10 and  sigma = 20
@@ -702,11 +655,11 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 from skimage.restoration import denoise_nl_means
 
 gray_image_gaussian_nonlocal_10_10 = denoise_nl_means(gray_image_gaussian_noise, 
-                                                patch_size=10, 
-                 patch_distance=10, 
-                 sigma = 20,
-                 multichannel=False, 
-                 fast_mode=True)
+                                                patch_size=5, 
+                                                patch_distance=10, 
+                                                sigma = 20,
+                                                multichannel=False, 
+                                                fast_mode=True)
 
 
 ```
@@ -727,10 +680,43 @@ plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x125768da0>
+    <matplotlib.colorbar.Colorbar at 0xc01d9c828>
 
 
 
 
-![png](week3-spatial-processing_files/week3-spatial-processing_69_1.png)
+![png](week3-spatial-processing_files/week3-spatial-processing_57_1.png)
 
+
+
+```python
+# plot the result
+fig, axs = plt.subplots(1, 2, figsize=(15,5))
+ax1, ax2 = axs
+im1=ax1.imshow(gray_image_equalized[1200:1450,3600:4000], cmap='gray')
+ax1.set_title('original')
+im2=ax2.imshow(gray_image_gaussian_nonlocal_10_10[1200:1450,3600:4000], cmap='gray')
+ax2.set_title('non-local means, patch_size = 10, patch_distance = 10')
+plt.colorbar(im1,ax=ax1,fraction=0.035, pad=0.03)
+plt.colorbar(im2,ax=ax2,fraction=0.035, pad=0.03) 
+```
+
+
+
+
+    <matplotlib.colorbar.Colorbar at 0xc01f35f28>
+
+
+
+
+![png](week3-spatial-processing_files/week3-spatial-processing_58_1.png)
+
+
+> Performs well in preserving edges, but small details are lost.
+
+# 4. Noise and averaging
+
+
+```python
+
+```
