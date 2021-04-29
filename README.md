@@ -1,4 +1,4 @@
-# Miscellanious projects
+# Miscellaneous projects
 
 ### Curvature detection
 * Code for extracting curvature from optical inerference images [notebook](https://github.com/pkliui/image-processing/blob/master/misc/curvature-detection/time-zero-rough-detection.md)
