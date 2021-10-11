@@ -2,6 +2,7 @@
 
 ### Curvature detection
 * Code for extracting curvature from optical inerference images [notebook](https://github.com/pkliui/image-processing/blob/master/misc/curvature-detection/time-zero-rough-detection.md)
+### Blobs detection
 * Blobs detection by multi-scale Lapacian of Gaussian filter [code and notebook](https://github.com/pkliui/image-processing/tree/master/misc/blobs-detection)
 
 
