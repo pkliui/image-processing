@@ -1,12 +1,13 @@
-# Miscellaneous projects
+# Small image processing projects
 
-### Curvature detection
+## Curvature detection in optical images
 * Code for extracting curvature from optical inerference images [notebook](https://github.com/pkliui/image-processing/blob/master/misc/curvature-detection/time-zero-rough-detection.md)
-### Blobs detection
+* 
+## Blobs detection
 * Blobs detection by multi-scale Lapacian of Gaussian filter [code and notebook](https://github.com/pkliui/image-processing/tree/master/misc/blobs-detection)
 
 
-# Independent coursework on image processing
+# Some fun exercises
 
 ## "Image and Video Processing" course by Prof. Guillermo Sapiro, Duke University
 
